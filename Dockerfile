@@ -22,5 +22,8 @@ ENV PATH="/opt/venv/bin:$PATH"
 RUN pip install --upgrade pip && \
     pip install -r requirements.txt
 
+COPY wait-for-it.sh /usr/wait-for-it.sh
+RUN chmod +x /usr/wait-for-it.sh
+
 # Run the tests (assuming pytest is used for testing)
-CMD ["pytest", "tests/"]
+CMD ["/usr/wait-for-it.sh", "myapp:9000", "--", "pytest", "-v"]
